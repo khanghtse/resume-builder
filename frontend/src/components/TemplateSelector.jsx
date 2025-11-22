@@ -36,7 +36,7 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-sm text-blue-600 bg-gradient-to-br from-blue-50 to-blue-100 ring-blue-300 hover:ring transition-all px-3 py-2 rounded-lg"
+        className="flex items-center gap-1 text-sm text-blue-600 bg-linear-to-br from-blue-50 to-blue-100 ring-blue-300 hover:ring transition-all px-3 py-2 rounded-lg"
       >
         <Layout size={14} /> <span className="max-sm:hidden">Template</span>
       </button>
@@ -66,7 +66,7 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
 
                 <div className="space-y-1">
                   <h4 className="font-medium text-gray-800">{template.name}</h4>
-                  <div className="mt-2 p-2 bg-blue-50 rounded text-xs text-gray-500 italic">
+                  <div className="mt-2 p-2 bg-blue-50 rounded text-xs text-gray-500 italic mb-2">
                     {template.preview}
                   </div>
                 </div>
