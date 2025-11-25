@@ -32,11 +32,11 @@ export const registerUser = async (req, res) => {
         })
 
         const token = generateToken(newUser._id);
-        newUser.password = undefined; //hide password in response
+        const { password: newPassword, ...userDetails } = newUser.toObject();
 
         res.status(201).json({
             message: "User registered successfully",
-            user: newUser,
+            user: userDetails,
             token,
         });
 
@@ -56,7 +56,7 @@ export const loginUser = async (req, res) => {
         }
 
         //check if user exists
-        const user = await User.findOne({email});
+        const user = await User.findOne({email}).select('+password');
         if (!user) {
             return res.status(400).json({message: "User does not exist"});
         }
@@ -68,13 +68,29 @@ export const loginUser = async (req, res) => {
         }
 
         const token = generateToken(user._id);
-        user.password = undefined; //hide password in response
+        const { password: hashedPassword, ...userDetails } = user.toObject();
 
         res.status(200).json({
             message: "User logged in successfully",
-            user,
+            user: userDetails,
             token,
         });
+    } catch (error) {
+        return res.status(400).json({message: error.message});
+    }
+}
+
+// get: /api/users/data
+export const getUserById = async (req, res) => {
+    try {
+        const userId = req.userId;
+        // check if user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({message: "User not found"});
+        }
+        const { password, ...userDetails } = user.toObject();
+        return res.status(200).json({user: userDetails});
     } catch (error) {
         return res.status(400).json({message: error.message});
     }
