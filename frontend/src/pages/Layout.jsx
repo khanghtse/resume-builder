@@ -1,6 +1,9 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Navbar from '../components/Navbar'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader";
+import Login from "./Login";
 
 /**
  * A layout component that renders a navbar and an outlet.
@@ -9,14 +12,23 @@ import Navbar from '../components/Navbar'
  * This component is used as a wrapper for all pages in the application.
  */
 const Layout = () => {
+  const { user, loading } = useSelector((state) => state.auth);
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div>
-      <div className='min-h-screen bg-gray-50'>
-        <Navbar/>
-        <Outlet/>
-      </div>
+      {user ? (
+        <div className="min-h-screen bg-gray-50">
+          <Navbar />
+          <Outlet />
+        </div>
+      ) : (
+        <Login />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
