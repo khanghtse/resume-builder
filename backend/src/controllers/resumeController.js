@@ -26,7 +26,7 @@ export const createResume = async (req, res) => {
 export const deleteResume = async (req, res) => {
     try {
         const userId = req.userId;
-        const { resumeId } = req.body;
+        const { resumeId } = req.params;
 
         // delete resume
         await Resume.findOneAndDelete({ userId, _id: resumeId });
@@ -86,7 +86,7 @@ export const updateResume = async (req, res) => {
         const { resumeId, resumeData, removeBackground } = req.body;
         const image = req.file;
 
-        let resumeDataCopy = JSON.parse(resumeData);
+        let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
 
         if (image) {
 
